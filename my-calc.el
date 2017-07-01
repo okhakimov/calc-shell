@@ -65,7 +65,8 @@
        (move-beginning-of-line 1)
        (insert (format "%-34s   "  my-calc-org_expr))))
   (next-line 1)
-  (kill-line 2))
+  (my-delete-line-if-empty)
+  (my-delete-line-if-empty))
 
 (defun my-calc-commands ()
   (interactive)
@@ -102,15 +103,15 @@
        (setq my-calc-active t)))
    (setq expr (my-get-curr-line))
    (if (or (string-match-p "^%" expr) (string-match-p "^ *$" expr))
-       ;commands/settings
        (my-calc-commands)
        (my-calc-pre)
        (calc-embedded-update-formula nil)
        (my-calc-post)))
 
 (defun my-calc ()
-  "
-Type an expresssion and press a hot key.
+  "Calculator (simplified embedded calc)
+
+Type an expresssion and press \\[my-calc].
 
 Examples:
 
@@ -192,10 +193,13 @@ d+10@ 30'                            ii := d + 10@ 30' 0\" => <7:05:51am Tue Jun
 % fix 3 - number of digits in floating point numbers will be 3 (can be set to any number)
 % deg   - angles will be measured in degrees
 % rad   - angles will be measured in radians
+
+Info node `(Calc)'
+Info node `(Calc) Function Index'
+
 "
   (interactive)
   (my-calc-eval))
-;(define-key global-map [f5] 'my-calc)
 
 (provide 'my-calc)
 
