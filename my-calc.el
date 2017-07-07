@@ -32,30 +32,50 @@
   (if (string-match-p "^$" (my-get-curr-line))
       (kill-line)))
 
+(defun my-calc-bound ()
+   (interactive)
+      (setq top-limit nil bot-limit nil)   
+      (save-excursion 
+	 (setq limit (search-backward-regexp "^ *$" nil t)))
+      (save-excursion 
+	 (setq top-limit (search-backward-regexp "\\[ \\[" limit t)))
+      (save-excursion 
+	 (setq limit (search-forward-regexp "^ *$" nil t)))
+      (save-excursion 
+	(setq bot-limit (search-forward-regexp "\\] \\]" limit t)))
+      (if (equal (list top-limit bot-limit) (list nil nil))
+	  (setq my-calc-exp-boundary 'line)
+	  (setq my-calc-exp-boundary (list top-limit bot-limit))))
+
+
 (defun my-calc-pre ()
    "Prepare current line for evaluation by calc-update-formula"
    (interactive)
-   (setq my-calc-org_expr (my-get-curr-line))
-   (move-end-of-line 1)
-   (newline)
-   (previous-line 1)
-   (setq expr  (replace-regexp-in-string "\s+$" "" (car (split-string my-calc-org_expr "=>"))))
-   ;add ii:= at the beginning of the line if there is no other assignment
-   (if (not (string-match-p "^ *[_A-Za-z0-9]+ *:?=" expr))
-       (setq expr (replace-regexp-in-string "^" "ii:= " (my-get-curr-line))))
-   ;replace = by := 
-   (setq expr (replace-regexp-in-string "\\(^ *[_A-Za-z0-9]+ *\\)=" "\\1:= " expr))
-   (move-beginning-of-line 1)
-   (kill-line)
-   (insert (format "$%s =>  $\n" expr))
-   (previous-line 1)
-   (forward-char 2))
-  
+   (if (equal (my-calc-bound) 'line)
+       (progn
+         (setq my-calc-org_expr (my-get-curr-line))
+         (move-end-of-line 1)
+         (newline)
+         (previous-line 1)
+         (setq expr  (replace-regexp-in-string "\s+$" "" (car (split-string my-calc-org_expr "=>"))))
+         ;add ii:= at the beginning of the line if there is no other assignment
+         (if (not (string-match-p "^ *[_A-Za-z0-9]+ *:?=" expr))
+             (setq expr (replace-regexp-in-string "^" "ii:= " (my-get-curr-line))))
+         ;replace = by := 
+         (setq expr (replace-regexp-in-string "\\(^ *[_A-Za-z0-9]+ *\\)=" "\\1:= " expr))
+         (move-beginning-of-line 1)
+         (kill-line)
+         (insert (format "$%s =>  $\n" expr))
+         (previous-line 1)
+         (forward-char 2))))
+        
 (defun my-calc-post ()
   "Remove calc delimiters"
   ;remove "$" around expression
   (interactive)
-  (if (not my-calc-examples-p)
+  (if (equal my-calc-exp-boundary 'line)
+   (progn
+    (if (not my-calc-examples-p)
      (progn
        (re-search-backward "\\$" nil t)
        (replace-match "")
@@ -64,9 +84,9 @@
      (progn 
        (move-beginning-of-line 1)
        (insert (format "%-34s   "  my-calc-org_expr))))
-  (next-line 1)
-  (my-delete-line-if-empty)
-  (my-delete-line-if-empty))
+    (next-line 1)
+    (my-delete-line-if-empty)
+    (my-delete-line-if-empty))))
 
 (defun my-calc-commands ()
   (interactive)
@@ -111,7 +131,7 @@
 (defun my-calc ()
   "Calculator (simplified embedded calc)
 
-Type an expresssion and press \\[my-calc].
+Type an expresssion and press \\[my-calc]. To undo: Ctrl+/
 
 Examples:
 
