@@ -48,7 +48,10 @@
 (setq my-calc-active nil)
 (setq my-calc-examples-p nil)
 (setq my-calc-file (locate-library "my-calc"))
-(setq my-calc-dir (file-name-directory my-calc-file))
+(if my-calc-file
+  (setq my-calc-dir (file-name-directory my-calc-file))
+  (setq my-calc-dir nil))
+
 (setq my-calc-default-var "ii")
 ;; list of expressions that don't assinged to the default var
 (setq my-calc-novar '("solve" "now"))
@@ -56,15 +59,13 @@
 (defun my-get-curr-line ()
       (buffer-substring-no-properties
        (line-beginning-position)
-       (line-end-position)
-       ))
+       (line-end-position)))
 
 (defun my-delete-line-if-empty ()
   (if (string-match-p "^$" (my-get-curr-line))
       (kill-line)))
 
 (defun my-calc-bound ()
-   (interactive)
       (setq top-limit nil bot-limit nil)   
       (save-excursion 
 	 (setq limit (search-backward-regexp "^ *$" nil t)))
@@ -81,7 +82,6 @@
 
 (defun my-calc-pre ()
    "Prepare current line for evaluation by calc-update-formula"
-   (interactive)
    (setq my-calc-exp-boundary-in (my-calc-bound))
    (if (equal my-calc-exp-boundary-in 'line)
        (progn
@@ -108,7 +108,6 @@
         
 (defun my-calc-post ()
   "Remove what was inserted by my-clac-pre"
-  (interactive)
   (setq my-calc-exp-boundary-out (my-calc-bound))
   (if (equal my-calc-exp-boundary-out 'line)
       (progn
@@ -127,7 +126,6 @@
     
 
 (defun my-calc-commands ()
-  (interactive)
   (setq expr (split-string (replace-regexp-in-string "^% *" ""  (my-get-curr-line))))
   (let ((x (car expr)))
        (cond ((equal x "?") (progn (describe-function 'my-calc))
