@@ -44,14 +44,15 @@
       (save-excursion 
 	(setq bot-limit (search-forward-regexp "\\] \\]" limit t)))
       (if (equal (list top-limit bot-limit) (list nil nil))
-	  (setq my-calc-exp-boundary 'line)
-	  (setq my-calc-exp-boundary (list top-limit bot-limit))))
+	  'line
+	  (list top-limit bot-limit)))
 
 
 (defun my-calc-pre ()
    "Prepare current line for evaluation by calc-update-formula"
    (interactive)
-   (if (equal (my-calc-bound) 'line)
+   (setq my-calc-exp-boundary-in (my-calc-bound))
+   (if (equal my-calc-exp-boundary-in 'line)
        (progn
          (setq my-calc-org_expr (my-get-curr-line))
          (move-end-of-line 1)
@@ -65,28 +66,29 @@
          (setq expr (replace-regexp-in-string "\\(^ *[_A-Za-z0-9]+ *\\)=" "\\1:= " expr))
          (move-beginning-of-line 1)
          (kill-line)
-         (insert (format "$%s =>  $\n" expr))
+         (insert (format "\n%s =>  " expr))
          (previous-line 1)
          (forward-char 2))))
         
 (defun my-calc-post ()
-  "Remove calc delimiters"
-  ;remove "$" around expression
+  "Remove what was inserted by my-clac-pre"
   (interactive)
-  (if (equal my-calc-exp-boundary 'line)
-   (progn
-    (if (not my-calc-examples-p)
-     (progn
-       (re-search-backward "\\$" nil t)
-       (replace-match "")
-       (re-search-forward "\\$" nil t)
-       (replace-match ""))
-     (progn 
-       (move-beginning-of-line 1)
-       (insert (format "%-34s   "  my-calc-org_expr))))
-    (next-line 1)
-    (my-delete-line-if-empty)
-    (my-delete-line-if-empty))))
+  (setq my-calc-exp-boundary-out (my-calc-bound))
+  (if (equal my-calc-exp-boundary-out 'line)
+      (progn
+          (previous-line 1)
+          (my-delete-line-if-empty)
+          (next-line 1)
+          (my-delete-line-if-empty)
+          (move-beginning-of-line 1)
+          (if (my-calc-examples-p)
+             (progn 
+                 (insert (format "%-34s   "  my-calc-org_expr)))))
+      (progn 
+	(goto-char (nth 1 my-calc-exp-boundary-out))
+	(next-line 1)
+	(newline))))
+    
 
 (defun my-calc-commands ()
   (interactive)
@@ -138,28 +140,17 @@ Examples:
 input:                               result:
 ------                               -------  
 
-(3+5)*10/2                           ii := (3 + 5) 10 / 2 => 40  
-2.3/(20.1+2.9)                       ii := 2.3 / (20.1 + 2.9) => 0.1  
-4^2                                  ii := 4^2 => 16  
-2^3                                  ii := 2^3 => 8  
-8^(1/3)                              ii := 8^(1/3) => 2.  
-sqrt(16)                             ii := sqrt(16) => 4  
-pi                                   ii := pi => 3.14159265359  
-e                                    ii := e => 2.71828182846  
-ln(e)                                ii := ln(e) => 1.  
-log10(100)                           ii := log10(100) => 2  
-log(4^3,4)                           ii := log(4^3, 4) => 3  
-sin(90)                              ii := sin(90) => 1  
-cos(60)                              ii := cos(60) => 0.5  
-tan(45)                              ii := tan(45) => 1.  
+(1.2+5)*10/2                         ii := (1.200 + 5) 10 / 2 => 31.000
+4^2+2^3+sqrt(16)+8^(1/3)             ii := 4^2 + 2^3 + sqrt(16) + 8^(1/3) => 30.000
+ln(e) + log10(100)                   ii := ln(e) + log10(100) => 3.000
+sin(90) + cos(60) + tan(45)          ii := sin(90) + cos(60) + tan(45) => 2.500
 deg(pi/4)                            ii := deg(pi / 4) => 45.  
 rad(180)                             ii := rad(180) => 3.14159265359  
 arcsin(0.5)                          ii := arcsin(0.5) => 30.  
 
 ;;; assignments:
-a=5                                  a := 5 => 5
-b=10                                 b := 10 => 10
-c=a*b                                c := a b => 50
+a=arccos(0.5)                        a := arccos(0.500) => 60.000
+b=a-30                               b := a - 30 => 30.000
 
 ;; operate on result of previous operation (variable ii):
 18+2                                 ii := 20 
@@ -192,7 +183,6 @@ v_1+v_3                              ii := v_1 + v_3 => 5
 vmean(v)                             ii := vmean(v) => 27  
 vmedian(v)                           ii := vmedian(v) => 3.5  
 vsdev(v)                             ii := vsdev(v) => 48.6826457786  
-
 
 ;; calculus
 f=3x^2 + 2x +1                       f := 3 x^2 + 2 x + 1 => 3 x^2 + 2 x + 1  
