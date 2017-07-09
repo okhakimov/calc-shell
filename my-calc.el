@@ -56,6 +56,28 @@
 ;; list of expressions that don't assinged to the default var
 (setq my-calc-novar '("solve" "now"))
 
+(defun my-calc-uc () (interactive)
+  "unit conversion if uc(..) is on the current line. example: uc(ft/m)"
+  (setq expr (my-get-curr-line))
+  (if (string-match ":= *uc(" expr)
+   (progn
+     (string-match "^\\(.*\\)\\(uc(\\)\\(.*\\)\\()\\)\\(.*\\)" expr)
+     (let ((s (list (match-string 1 expr) (match-string 3 expr) (match-string 5 expr))))
+        (move-beginning-of-line 1)
+        (kill-line 1)
+        (insert
+          (format "%s\n" (nth 1 s)))
+        (previous-line 1)
+
+        (calc-embedded nil)
+        (calc-base-units)
+        (calc-embedded nil)
+
+	(move-beginning-of-line 1)
+        (insert (format "%s" (nth 0 s)))
+        (move-end-of-line 1)
+        (insert (format "%s" (nth 2 s)))))))
+
 (defun my-get-curr-line ()
       (buffer-substring-no-properties
        (line-beginning-position)
@@ -168,6 +190,7 @@
    (if (or (string-match-p "^%" expr) (string-match-p "^ *$" expr))
        (my-calc-commands)
        (my-calc-pre)
+       (my-calc-uc)
        (calc-embedded-update-formula nil)
        (my-calc-post)))
 
@@ -242,6 +265,10 @@ d=now()                              d := now() => <8:35:51pm Mon Jun 26, 2017>
 d+2*7                                ii := d + 2 7 => <8:35:51pm Mon Jul 10, 2017>  
 time(d)                              ii := time(d) => 20@ 35' 51\"  
 d+10@ 30'                            ii := d + 10@ 30' 0\" => <7:05:51am Tue Jun 27, 2017>  
+
+;; unit conversion:
+uc(ft/m)                             ii := 0.3048 => 0.3048
+uc(in/cm)                            ii := 2.54 => 2.54
 
 ;; misc commands:
 % ?     - this help
