@@ -44,6 +44,52 @@
 ;;  solve(f,x)                           solve(f, x) => x = -0.25  
 ;;  solve(x^2 - 3 x + 1 = 0, x)          solve(x^2 - 3 x + 1 = 0, x) => x = 2.61803398875  
 ;;  
+;;  ;; system of equations:
+;;  f1=4x+y=0                            f1 := 4 x + y = 0 => 4 x + y = 0  
+;;  f2=x-y=10                            f2 := x - y = 10 => x - y = 10  
+;;  solve([f1,f2],[x,y])                 solve([f1, f2], [x, y]) => [x = 2., y = -8.]  
+;;  
+;;  ;; complex numbers. (a,b)= a + i*b. polar notation: (r; arg)
+;;  c1=(3,4)                             c1 := (3, 4) => (3, 4)  
+;;  abs(c1)                              ii := abs(c1) => 5  
+;;  arg(c1)                              ii := arg(c1) => 53.1301023542  
+;;  re(c1)                               ii := re(c1) => 3  
+;;  im(c1)                               ii := im(c1) => 4  
+;;  c1*(2,1)                             ii := c1*(2, 1) => (2, 11)  
+;;  polar((3,4))                         ii := polar((3, 4)) => (5; 53.1301023542)  
+;;  cpolar=(4;60)                        ii := cpolar := (4; 60) => (4; 60)  
+;;  rect(cpolar)                         ii := rect(cpolar) => (2., 3.46410161514)  
+;;  
+;;  ;; vectors, statistics
+;;  v=[1,3,4,100]                        v := [1, 3, 4, 100] => [1, 3, 4, 100]  
+;;  v_1+v_3                              ii := v_1 + v_3 => 5  
+;;  vmean(v)                             ii := vmean(v) => 27  
+;;  vmedian(v)                           ii := vmedian(v) => 3.5  
+;;  vsdev(v)                             ii := vsdev(v) => 48.6826457786  
+;;  v1=index(4)                          v1 := index(4) => [1, 2, 3, 4]
+;;  v2=cvec(100,3)                       v2 := cvec(100, 3) => [100, 100, 100]
+;;  ;; generate vector of random numbers
+;;  map(random,cvec(100,3))              ii := map(random, cvec(100, 3)) => [68, 43, 62]
+;;  
+;;  ;; calculus
+;;  f=3x^2 + 2x +1                       f := 3 x^2 + 2 x + 1 => 3 x^2 + 2 x + 1  
+;;  deriv(f,x)                           ii := deriv(f, x) => 6 x + 2  
+;;  deriv(f,x,2)                         ii := deriv(f, x, 2) => 14  
+;;  deriv(f(2x), x)                      ii := deriv(f(2 x), x) => 2 f'(2 x)  
+;;  integ(3x^2+1,x)                      ii := integ(3 x^2 + 1, x) => x^3 + x  
+;;  vsum(v)                              ii := vsum(v) => 108  
+;;  
+;;  ;; date, time
+;;  d=now()                              d := now() => <8:35:51pm Mon Jun 26, 2017>  
+;;  d+2*7                                ii := d + 2 7 => <8:35:51pm Mon Jul 10, 2017>  
+;;  time(d)                              ii := time(d) => 20@ 35' 51\"  
+;;  d+10@ 30'                            ii := d + 10@ 30' 0\" => <7:05:51am Tue Jun 27, 2017>  
+;;  
+;;  ;; unit conversion:
+;;  uc(ft/m)                             ii := 0.3048 => 0.3048
+;;  uc(in/cm)                            ii := 2.54 => 2.54
+;;  
+;;  
 ;;; Code:
 
 
