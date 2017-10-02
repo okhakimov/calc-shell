@@ -44,7 +44,6 @@
 ;;  solve(f,x)                           solve(f, x) => x = -0.25  
 ;;  solve(x^2 - 3 x + 1 = 0, x)          solve(x^2 - 3 x + 1 = 0, x) => x = 2.61803398875  
 ;;  
-<<<<<<< HEAD
 ;;  ;; system of equations:
 ;;  f1=4x+y=0                            f1 := 4 x + y = 0 => 4 x + y = 0  
 ;;  f2=x-y=10                            f2 := x - y = 10 => x - y = 10  
@@ -91,8 +90,6 @@
 ;;  uc(in/cm)                            ii := 2.54 => 2.54
 ;;  
 ;;  
-=======
->>>>>>> d452fbcef685df5ca913bc1357645bb5a0c7e846
 ;;; Code:
 
 
