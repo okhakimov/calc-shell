@@ -1,0 +1,192 @@
+;;; (outline-minor-mode 1)
+;;; Local Variables:
+;;; outline-regexp: "^\\(;\\);\\{5,8\\}\\|^\\(([a-z]\\)")
+;;; End: 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;; basics
+12 3 + 5 => 41
+a := 5 => 5
+b := 10 => 10
+c := a b => 50
+ii := sin(c) => 0.77
+ii := tan(c) => 1.19
+ii := deg(pi) => 180.00
+ii := rad(90) => 1.57
+ii := c^2 => 2500
+ii := sqrt(c) => 7.07
+ii := log10(c) => 1.70
+ii := ln(c) => 3.91
+;; operate on result of previous operation
+ii := ii 10 => 39.12
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;; calc test
+
+5/18 => 0.277777777778
+x := 4 => 4
+x + 56/8 => 11
+[10, 20] 4.5 => [45., 90.]
+
+;;;;;;;;;;;;;;;;;;;; calc 24 April 2017
+
+inl_off := 7000 => 7000
+sqrt(inl_off^2 + 6000^2) => 9219.54445729
+
+;;;;;;;;;;;;;;;;;;;; calc 25 April 2017
+;floating point presision
+% [calc-perm-mode: float-format: (fix 5)]
+10/3 => 3.33333
+% [calc-perm-mode: float-format: (fix 2)]
+10/3 => 3.33
+
+; distance between points
+p1 := (201357.562, 2713557.75) => (201357.562, 2713557.75)
+p2 := (201553.438, 2713666.5) => (201553.438, 2713666.5)
+dist_between_points := abs(p2 - p1) => 224.04010774
+arg(p2 - p1) => 29.0389551751
+az_deg := 90 - arg(p2 - p1) => 60.9610448249
+polar(p2 - p1) => (224.04010774; 29.0389551751)
+
+; conversion
+; degree to rad
+ii := rad(90) => 1.57
+; rad to degree
+ii := deg(pi / 4) => 45.00
+; h:m:s format
+ii := hms(deg(pi / 3.21)) => 56@ 4' 29.16"
+
+; percent
+ii := 80 25% => 20.00
+ii := relch(40, 50) => 0.25
+
+
+; multiply [1000 7000] by coefficients 2, 4, 10 (using compex numbers)
+n := (1000, 7000) => (1000, 7000)
+kk := [2, 4, 10] => [2, 4, 10]
+kk n => [(2000, 14000), (4000, 28000), (10000, 70000)]
+
+;;;
+idn(4, 2) => [ [ 4, 0 ]
+               [ 0, 4 ] ]
+
+              [ [ 1, 0, 0, 0, 0 ]
+                [ 0, 1, 0, 0, 0 ]
+diag(1, 5) =>   [ 0, 0, 1, 0, 0 ]
+                [ 0, 0, 0, 1, 0 ]
+                [ 0, 0, 0, 0, 1 ] ]
+
+
+x := index(7, 5, 2) => [5, 7, 9, 11, 13, 15, 17]
+
+
+                          [ [ 1, 1, 1 ]
+ones := diag(0, 3) + 1 =>   [ 1, 1, 1 ]
+                            [ 1, 1, 1 ] ]
+
+                         [ [ 1,  1,  1  ]
+                           [ 1,  1,  1  ]
+append(ones, ones 10) =>   [ 1,  1,  1  ]
+                           [ 10, 10, 10 ]
+                           [ 10, 10, 10 ]
+                           [ 10, 10, 10 ] ]
+
+x := [1, 2, 3] => [1, 2, 3]
+
+y := [x, x 10] => [ [ 1,  2,  3  ]
+                    [ 10, 20, 30 ] ]
+
+head(y) => [1, 2, 3]
+
+tail(y) => [[ 10, 20, 30 ]]
+
+z := cons(x, x 20) => [[1, 2, 3], 20, 40, 60]
+
+mrow(y, 1) => [1, 2, 3]
+
+x := [ [ 2,  5 ]   => [ [ 2,  5 ]
+       [ -2, 4 ] ]      [ -2, 4 ] ]
+
+ii := det(x) => 18 ii := inv(x) => (ii := det(x) => 18)
+
+
+n := lud(x) => [[ [ 1, 0 ]  , [ [ 1,  0 ]  , [ [ 2, 5 ]  ]
+                  [ 0, 1 ] ]    [ -1, 1 ] ]    [ 0, 9 ] ]
+
+;; acessing elements of a vector/matix
+ii := n_3 => [ [ 2, 5 ]
+               [ 0, 9 ] ]
+
+ii := n_3_2_2 => 9
+
+
+ii := x_2 => [-2, 4] ii := x_2_1 => (ii := x_2 => [-2, 4])
+
+
+;mapping
+ii := map(sqrt, [4, 9, 25]) => [2, 3, 5]
+
+;; solver
+; solving a system of linear equations
+f1 := 4 a + 2 b = 1 => 4 a + 2 b = 1
+f2 := 5 a - b = 4 => 5 a - b = 4
+ii := solve([f1, f2], [a, b]) => [a = 0.64, b = -0.79]
+
+;solving for a varable
+ii := solve(y1 = x1^2 + 2 x1 + 1, x1) => x1 = -1 - sqrt(y1)
+
+
+;; polynomials
+
+
+;;derivatives
+ii := deriv(a^2 + b a, a) => 2 a + b
+ii := deriv(a^2 + b a, a, 2) => b + 4
+
+
+;; complex numbers
+
+;define complex number
+cr := (1, 2) => (1, 2)
+;; polar notation:
+cp := (3; 4) => (3; 4)
+
+;; absolute value (sqrt(re^2+im^2))
+ii := abs(cr) => 2.24
+ii := abs(cp) => 3
+ii := arg(cp) => 4
+;; convert to polar
+ii := polar(cr) => (2.24; 63.43)
+;; real and imagenery parts		    
+ii := [re(cp), im(cp)] => [2.99, 0.21]
+
+now() => <10:04:08pm Sat Jul 8, 2017>
+
+;; generate 5x5 matrix of random numbers and find invers
+v := cvec(100, 5) => [100, 100, 100, 100, 100]
+v1 := map(random, v) / 10 => [1, 3.6, 6.9, 2.3, 5]
+v2 := map(random, v) / 10 => [5.1, 8.6, 2.6, 2.8, 8.5]
+v3 := map(random, v) / 10 => [3.8, 4.7, 8.1, 1.2, 7]
+v4 := map(random, v) / 10 => [2.2, 9.8, 4.4, 5.6, 3.1]
+v5 := map(random, v) / 10 => [8.7, 9.9, 7.8, 6.6, 5.1]
+
+
+                             [ [  1,  3.6, 6.9, 2.3,  5  ]
+                               [ 5.1, 8.6, 2.6, 2.8, 8.5 ]
+m := [v1, v2, v3, v4, v5] =>   [ 3.8, 4.7, 8.1, 1.2,  7  ]
+                               [ 2.2, 9.8, 4.4, 5.6, 3.1 ]
+                               [ 8.7, 9.9, 7.8, 6.6, 5.1 ] ]
+
+% [calc-mode: float-format: (fix 3)]
+
+                [ [ -0.154, -6.28e-4, 0.061,  -0.107, 0.134  ]
+                  [ -0.389,  -0.063,  0.328,  0.276,  -0.131 ]
+ii := inv(m) =>   [ -0.051,  -0.141,  0.187,  0.062,  -0.009 ]
+                  [ 0.616,   0.119,   -0.623, -0.221, 0.187  ]
+                  [ 0.298,   0.186,   -0.220, -0.161, -0.007 ] ]
+
