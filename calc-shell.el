@@ -35,7 +35,7 @@
 ;;  a=arccos(0.5)                        a := arccos(0.500) => 60.000
 ;;  b=a-30                               b := a - 30 => 30.000
 ;;  
-;;  ;; operate on result of previous operation (variable ii):
+;;  ;; operate on the result of the previous operation (variable ii):
 ;;  18+2                                 ii := 20 
 ;;  ii*10                                ii := ii 10 => 200
 ;;  
@@ -184,7 +184,8 @@
           (previous-line 1)
           (my-delete-line-if-empty)
           (next-line 1)
-          (my-delete-line-if-empty)
+	  ; ?? next line created a problem for screencast and was commented
+          ;(my-delete-line-if-empty)
           (move-beginning-of-line 1)
           (if calc-shell-examples-p
              (progn 
@@ -264,7 +265,7 @@ arcsin(0.5)                          ii := arcsin(0.5) => 30.
 a=arccos(0.5)                        a := arccos(0.500) => 60.000
 b=a-30                               b := a - 30 => 30.000
 
-;; operate on result of previous operation (variable ii):
+;; operate on the result of the previous operation (variable ii):
 18+2                                 ii := 20 
 ii*10                                ii := ii 10 => 200
 
