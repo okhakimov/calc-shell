@@ -128,6 +128,11 @@ uc(2in/cm)
    (setq screencast-use-message-buffer nil)
    (setq screencast-speed 3)
  )
+;;;; --------- reset floating point number format to default
+(progn
+  (ignore-errors (set-buffer "*Calculator*"))
+  (setq calc-float-format '(float 0)))
+
 ;;;; --------- run screencast
 (screencast s-list "basic-screencast.txt" 1)
 (screencast s-list-advanced "advanced-screencast.txt" 1)
