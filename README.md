@@ -9,7 +9,7 @@ Copy to .emacs:
 (load-file "~/.emacs.d/calc-shell/calc-shell.el")
 (define-key global-map [f5] 'calc-shell)
 
-In any editable buffer you can type an expression and evaluate it by typing "F5".
+In any editable buffer you can write an expression and evaluate it by typing "F5".
 
 ## Screencast.
 
