@@ -10,4 +10,5 @@ Copy to .emacs:
 In any editable buffer you can type an expression and evaluate by typing <F5>.
 
 Screencast:
+
 ![Alt text](screencast-calc-shell.gif?raw=true "calc-shell screencast")
