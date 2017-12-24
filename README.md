@@ -1,7 +1,9 @@
+## Introduction.
+
 calc-shell.el is a lightweight wrapper script to help you to get familiar with emacs calc
 and simplify interactions with this wonderful program.
 
-# Installation:
+## Installation.
 
 Copy to .emacs:
 (load-file "~/.emacs.d/calc-shell/calc-shell.el")
