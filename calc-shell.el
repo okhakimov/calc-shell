@@ -66,6 +66,7 @@
 ;;  vmean(v)                             ii := vmean(v) => 27  
 ;;  vmedian(v)                           ii := vmedian(v) => 3.5  
 ;;  vsdev(v)                             ii := vsdev(v) => 48.6826457786  
+;;  vsum(v)                              ii := vsum(v) => 108  
 ;;  v1=index(4)                          v1 := index(4) => [1, 2, 3, 4]
 ;;  v2=cvec(100,3)                       v2 := cvec(100, 3) => [100, 100, 100]
 ;;  ;; generate vector of random numbers
@@ -77,7 +78,6 @@
 ;;  deriv(f,x,2)                         ii := deriv(f, x, 2) => 14  
 ;;  deriv(f(2x), x)                      ii := deriv(f(2 x), x) => 2 f'(2 x)  
 ;;  integ(3x^2+1,x)                      ii := integ(3 x^2 + 1, x) => x^3 + x  
-;;  vsum(v)                              ii := vsum(v) => 108  
 ;;  
 ;;  ;; date, time
 ;;  d=now()                              d := now() => <8:35:51pm Mon Jun 26, 2017>  
@@ -296,6 +296,7 @@ v_1+v_3                              ii := v_1 + v_3 => 5
 vmean(v)                             ii := vmean(v) => 27  
 vmedian(v)                           ii := vmedian(v) => 3.5  
 vsdev(v)                             ii := vsdev(v) => 48.6826457786  
+vsum(v)                              ii := vsum(v) => 108  
 v1=index(4)                          v1 := index(4) => [1, 2, 3, 4]
 v2=cvec(100,3)                       v2 := cvec(100, 3) => [100, 100, 100]
 ;; generate vector of random numbers
@@ -307,7 +308,6 @@ deriv(f,x)                           ii := deriv(f, x) => 6 x + 2
 deriv(f,x,2)                         ii := deriv(f, x, 2) => 14  
 deriv(f(2x), x)                      ii := deriv(f(2 x), x) => 2 f'(2 x)  
 integ(3x^2+1,x)                      ii := integ(3 x^2 + 1, x) => x^3 + x  
-vsum(v)                              ii := vsum(v) => 108  
 
 ;; date, time
 d=now()                              d := now() => <8:35:51pm Mon Jun 26, 2017>  
